@@ -1,0 +1,17 @@
+[package]
+name = "pedal-steel"
+version = "0.1.0"
+edition = "2024"
+authors = ["Jacob Trombetta <jacobtrombetta@gmail.com>"]
+license = "MIT OR Apache-2.0"
+description = "CLI tool for visualizing pedal steel guitar necks, tunings, and copedents"
+repository = "https://github.com/jacobtrombetta/pedal-steel"
+keywords = ["music", "guitar", "pedal-steel", "cli"]
+categories = ["command-line-utilities", "multimedia"]
+readme = "README.md"
+
+[dependencies]
+clap = { version = "4", features = ["derive"] }
+rust-music-theory = { version = "0.3.0" }
+strum = { version = "0.27.2" }
+strum_macros = { version = "0.27.2" }
