@@ -11,6 +11,7 @@
 //!   cargo run -- tuning --notes "F#, D#, G#, E, B, G#, F#, E, D, B"
 //!   cargo run -- scale --tuning-name "E9" --tuning "F#, D#, G#, E, B, G#, F#, E, D, B" --scale "E major"
 //!   cargo run -- chord --tuning-name "E9" --tuning "F#, D#, G#, E, B, G#, F#, E, D, B" --chord "E major"
+//!   cargo run -- notes --tuning-name "E9" --tuning "F#, D#, G#, E, B, G#, F#, E, D, B" --notes "E"
 //!
 //! The CLI (clap) is defined here; functionality is implemented in the
 //! library modules: copedent, display, guitar, and tunings.
@@ -18,7 +19,10 @@
 use clap::{Parser, Subcommand};
 use pedal_steel::{
     copedent::{Position, possible_positions},
-    display::{print_chord, print_chord_on_pedal_steel, print_copedent, print_scale, print_tuning},
+    display::{
+        print_chord, print_chord_on_pedal_steel, print_copedent, print_notes_on_neck, print_scale,
+        print_tuning,
+    },
     guitar::Guitar,
 };
 use rust_music_theory::{chord::Chord, scale::Scale};
@@ -112,6 +116,16 @@ enum Commands {
         #[arg(long)]
         chord: String,
     },
+
+    /// Show notes on neck for given tuning
+    Notes {
+        #[arg(long)]
+        tuning_name: String,
+        #[arg(long)]
+        tuning: String,
+        #[arg(long)]
+        notes: String,
+    },
 }
 
 #[derive(clap::ValueEnum, Clone)]
@@ -177,6 +191,15 @@ fn main() {
                 }
                 Err(_) => eprintln!("Invalid chord: {}", chord),
             }
+        }
+
+        Commands::Notes {
+            tuning_name,
+            tuning,
+            notes,
+        } => {
+            let guitar = Guitar::new(&tuning_name, &tuning);
+            print_notes_on_neck(&guitar, &[Position::Open], &notes);
         }
     }
 }

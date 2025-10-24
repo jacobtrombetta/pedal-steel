@@ -6,10 +6,11 @@
 use crate::{
     copedent::{Position, copedent_change, position_name, position_string},
     guitar::{Guitar, NeckPositions, frets_with_all_chord_tones, identify_notes_on_neck},
+    tunings::tuning,
 };
 use rust_music_theory::{
     chord::Chord,
-    note::{Notes, Pitch},
+    note::{Note, Notes, Pitch},
     scale::Scale,
 };
 use std::fmt::Write;
@@ -114,6 +115,17 @@ pub fn print_chord_on_pedal_steel(guitar: &Guitar, position: &[Position], chord:
 /// Print the scale positions to the console
 pub fn print_scale(guitar: &Guitar, position: &[Position], scale: &Scale) {
     let neck_positions = identify_notes_on_neck(guitar, position, &scale.notes());
+
+    if let Err(e) = print_neck_positions(guitar, &neck_positions, Some(&position_name(position))) {
+        eprintln!("Error printing neck positions: {e}");
+    }
+}
+
+/// Print the notes on the guitar neck for a given position and notes
+pub fn print_notes_on_neck(guitar: &Guitar, position: &[Position], notes: &str) {
+    let pitch_list = tuning(notes);
+    let note_list: Vec<Note> = pitch_list.iter().map(|p| Note::new(*p, 0)).collect();
+    let neck_positions = identify_notes_on_neck(guitar, position, &note_list);
 
     if let Err(e) = print_neck_positions(guitar, &neck_positions, Some(&position_name(position))) {
         eprintln!("Error printing neck positions: {e}");
