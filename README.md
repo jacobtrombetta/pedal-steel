@@ -90,6 +90,34 @@ cargo run -- chord \
   --chord "E major"
 ```
 
+### Visualize Notes on a neck
+
+Show where notes appear on the neck:
+
+```bash
+cargo run -- notes \
+  --tuning-name "E9" \
+  --tuning "F#, D#, G#, E, B, G#, F#, E, D, B" \
+  --notes "E"
+```
+
+**Output:**
+```
+E9
+ Open
+ 0  1  2  3  4  5  6  7  8  9 10 11 
+ -- -- -- -- -- -- -- -- -- --  E --
+ --  E -- -- -- -- -- -- -- -- -- --
+ -- -- -- -- -- -- -- --  E -- -- --
+  E -- -- -- -- -- -- -- -- -- -- --
+ -- -- -- -- --  E -- -- -- -- -- --
+ -- -- -- -- -- -- -- --  E -- -- --
+ -- -- -- -- -- -- -- -- -- --  E --
+  E -- -- -- -- -- -- -- -- -- -- --
+ -- --  E -- -- -- -- -- -- -- -- --
+ -- -- -- -- --  E -- -- -- -- -- --
+```
+
 ## Usage Examples
 
 **Common E9 tuning:**
