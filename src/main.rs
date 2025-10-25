@@ -105,6 +105,8 @@ enum Commands {
         tuning: String,
         #[arg(long)]
         scale: String,
+        #[arg(long)]
+        lap_steel: bool,
     },
 
     /// Show chord positions for given tuning
@@ -115,6 +117,8 @@ enum Commands {
         tuning: String,
         #[arg(long)]
         chord: String,
+        #[arg(long)]
+        lap_steel: bool,
     },
 
     /// Show notes on neck for given tuning
@@ -125,6 +129,8 @@ enum Commands {
         tuning: String,
         #[arg(long)]
         notes: String,
+        #[arg(long)]
+        lap_steel: bool,
     },
 }
 
@@ -164,6 +170,7 @@ fn main() {
             tuning_name,
             tuning,
             scale,
+            lap_steel: _,
         } => {
             let guitar = Guitar::new(&tuning_name, &tuning);
             match Scale::from_regex(&scale) {
@@ -178,12 +185,18 @@ fn main() {
             tuning_name,
             tuning,
             chord,
+            lap_steel,
         } => {
             let guitar = Guitar::new(&tuning_name, &tuning);
             match Chord::from_regex(&chord) {
                 Ok(chord_obj) => {
-                    // print chord positions (uses possible_positions)
-                    let positions = possible_positions();
+                    // print chord positions
+                    // If lap_steel mode, only show Open position, otherwise show all positions
+                    let positions = if lap_steel {
+                        vec![vec![Position::Open]]
+                    } else {
+                        possible_positions()
+                    };
                     for position in positions {
                         print_chord(&guitar, &position, &chord_obj);
                         print_chord_on_pedal_steel(&guitar, &position, &chord_obj);
@@ -197,6 +210,7 @@ fn main() {
             tuning_name,
             tuning,
             notes,
+            lap_steel: _,
         } => {
             let guitar = Guitar::new(&tuning_name, &tuning);
             print_notes_on_neck(&guitar, &[Position::Open], &notes);

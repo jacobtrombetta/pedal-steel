@@ -10,6 +10,7 @@ A command line tool for inspecting pedal steel guitar necks, tunings, and copede
 - **Show scale positions** - See where scale notes fall across the neck for any tuning
 - **Show chord positions** - Find chord voicings and complete chord tones at specific frets
 - **Flexible position support** - Analyze Open position plus pedals (A, B, C, D) and levers (LKL, LKV, LKR, RKL, RKR)
+- **Lap steel support** - Use the `--lap-steel` flag to view only Open position (no pedals/levers)
 
 ## Installation
 
@@ -104,6 +105,21 @@ cargo run -- scale --tuning-name "C6" --tuning "E, C, A, G, E, C" --scale "C maj
 **Blues scale:**
 ```bash
 cargo run -- scale --tuning-name "E9" --tuning "F#, D#, G#, E, B, G#, F#, E, D, B" --scale "E blues"
+```
+
+**Lap Steel Mode:**
+
+Use the `--lap-steel` flag to restrict output to only the Open position (no pedals/levers):
+
+```bash
+# A6 lap steel tuning - show chords
+cargo run -- chord --tuning-name "A6" --tuning "E, C#, A, F#, E, C#, A, F#" --chord "A major" --lap-steel
+
+# C6 lap steel tuning - show scale
+cargo run -- scale --tuning-name "C6" --tuning "G, E, C, A, G, E, C, A" --scale "C major" --lap-steel
+
+# Show specific notes on a lap steel neck
+cargo run -- notes --tuning-name "A6" --tuning "E, C#, A, F#, E, C#, A, F#" --notes "A, C#, E" --lap-steel
 ```
 
 ## Supported Scales
